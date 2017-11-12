@@ -1,0 +1,10 @@
+Referenced Docs:
+
+MySQL新建用户,授权,删除用户,修改密码
+http://www.cnblogs.com/analyzer/articles/1045072.html
+
+Mysql命令大全
+http://www.cnblogs.com/zhangzhu/archive/2013/07/04/3172486.html
+
+Mysql命令大全：mysql常用命令手册、mysql命令行大全、查询工具
+http://c.biancheng.net/cpp/u/mysql_ml/
