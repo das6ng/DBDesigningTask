@@ -14,21 +14,22 @@ class initObj(object):
     def __init__(self):
         self.DBfd = connectDB()
         self.cursor = self.DBfd.cursor()
-        print " <initObj>connecter called"
+        print "msg> <initObj>connecter called"
         
     def __del__(self):
+        self.DBfd.commit()
         self.DBfd.close()
         print "->Db connection close."
 
     def dropTable(self, table):    
-        sql = "drop table %s;"
-        msg = self.cursor.execute(sql, table)
+        sql = "drop table %s;"%table
+        msg = self.cursor.execute(sql)
         
         print "msg D> ",msg
         return msg
         
     def getAllData(self, table):
-        sql = "select * from test;"
+        sql = "select * from %s;"%table
         msg = self.cursor.execute(sql)
         
         data = self.cursor.fetchall()
@@ -53,12 +54,12 @@ if __name__ == "__main__":
     try:
         c.dropTable('test')
     except Exception,e:
-        print "->drop exception"
+        print "->drop exception",e
         pass
     try:
         c.createTestTable()
     except Exception,e:
-        print "->create exception"
+        print "->create exception",e
         pass
     for i in range(0,15):
         c.insertTestData(str(i), 'n'+str(i))
@@ -70,3 +71,5 @@ if __name__ == "__main__":
     except Exception,e:
         print "->select exception. msg:",e
         pass
+        
+        
