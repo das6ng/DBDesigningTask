@@ -34,6 +34,7 @@ create table tbl_class(
     index ID(id),
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
 );
 """
 sql_teacher = """
@@ -46,6 +47,7 @@ create table tbl_teacher(
     index ID(id),
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
 );
 """
 sql_student = """
@@ -59,6 +61,8 @@ create table tbl_student(
     index ID(id),
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
+        on delete set null
 );
 """
 sql_plan = """
@@ -72,11 +76,14 @@ create table tbl_teachingplan(
     
     primary key (class, course, dept),
     foreign key (class)
-        references tbl_class(id),
+        references tbl_class(id)
+        on update cascade,
     foreign key (course)
-        references tbl_course(id),
+        references tbl_course(id)
+        on update cascade,
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
 );
 """
 sql_choice = """
@@ -88,9 +95,11 @@ create table tbl_coursechoice(
 
     primary key (id, course),
     foreign key (id)
-        references tbl_student(id),
+        references tbl_student(id)
+        on update cascade,
     foreign key (course)
         references tbl_course(id)
+        on update cascade
 );
 """
 
