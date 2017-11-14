@@ -39,7 +39,7 @@ create table tbl_class(
 """
 sql_teacher = """
 create table tbl_teacher(
-    id char(2) not null primary key,
+    id char(8) not null primary key,
     name char(36) not null,
     gender char(1) not null check (gender in ('F','M', 'X')),
     dept char(36) not null,
@@ -109,7 +109,6 @@ class initObj(object):
     def __init__(self):
         self.DBfd = connectDB()
         self.cursor = self.DBfd.cursor()
-        print "msg> initObj:consructor called."
     
     # commit changes and close connection    
     def __del__(self):

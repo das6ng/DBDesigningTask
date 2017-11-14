@@ -12,7 +12,7 @@ class NamePicker(object):
         self.firstnames = []
         self.lastnames = []
         namef = open("../data/firstnames.txt")
-        namel = open("../data/lastnames.txt")
+        namel = open("../data/baijiaxing.txt")
         line = namef.readline()
         while line:
             self.firstnames += line.split()

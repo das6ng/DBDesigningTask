@@ -17,7 +17,6 @@ class InsertTestData(object):
         self.DBfd = connectDB()
         self.cursor = self.DBfd.cursor()
         self.np = NamePicker()
-        print "msg> initObj:consructor called."
     
     # commit changes and close connection    
     def __del__(self):
@@ -40,23 +39,69 @@ class InsertTestData(object):
         data = self.cursor.fetchall()
         return data
     
-    def insertStudent(self, id_, name, gender, birth):
-        sql = "insert into tbl_student(id, name, gender, birthday) values (%s,%s,%s,%s)"
-        msg = self.cursor.execute(sql, (id_, name, gender, birth))
-
+    def insertDept(self):
+        f = open("../data/depts.txt")
+        sql = "insert into tbl_department(id,name) values (%s,%s)"
+        line = f.readline()
+        print "Insert depratments: "
+        count = 0
+        while line:
+            ll = line.split()
+            msg = self.cursor.execute(sql, (ll[0],ll[1]))
+            print "ll[0], ll[1]"
+            line = f.readline()
+            count += 1
+        return count
+    
+    def insertCourses(self):
+        pass
+    
+    def insertTeachers(self):
+        sql = "insert into tbl_teacher(id, name, gender, dept) values (%s,%s,%s,%s)"
+        depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16']
+        print "Insert teachers: "
+        count = 0
+        for dept in depts:
+            for year in range(1998,2017):
+                for no in range(10,17):
+                    p = self.np.pickPerson()
+                    id_ = str(year)+dept+str(no)
+                    self.cursor.execute(sql, (id_, p[0], p[1], dept))
+                    print id_," ",p[0]," ",p[1]," ",dept
+                    count += 1
+        return count
+    
+    def insertStudent(self, id_, name, gender, birth,dept):
+        sql = "insert into tbl_student(id, name, gender, birthday,dept) values (%s,%s,%s,%s,%s)"
+        msg = self.cursor.execute(sql, (id_, name, gender, birth,dept))
+    
+    def insertStudents(self, n=0):
+        depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16']
+        try:
+            print "Insert students: "
+            count = 0
+            for dept in depts:
+                for clss in range(1,10):
+                    for num in range(10,51):
+                        id_ = '2020'+dept+str(clss)+str(num)
+                        p = self.np.pickPerson()
+                        self.insertStudent(id_,p[0], p[1], p[2],dept)
+                        print id_," ",p[0]," ",p[1]," ",p[2]
+                        count += 1
+        except Exception,e:
+            print e
+        return count
 
 # test process
 if __name__ == "__main__":
     obj = InsertTestData()
-    def iStu(n):
-        try:
-            print "Insert students: "
-            for i in range(0,n):
-                p = obj.np.pickPerson()
-                obj.insertStudent(str(i+1),p[0], p[1], p[2])
-                print "#",i+1,": ",p[0]," ",p[1]," ",p[2]
-        except Exception,e:
-            print e
-    iStu(1000)
+    cd = obj.insertDept()
+    cs = obj.insertStudents()
+    ct = obj.insertTeachers()
+    
+    print "Total: "
+    print " departments: ",cd
+    print " teachers: ",ct
+    print " students: ",cs
 
 ######
