@@ -5,15 +5,18 @@
 #     insert test data into Database
 #
 
+import random
 import pymysql
 
 from connectDB import connectDB
+from NamePicker import NamePicker
 
 class InsertTestData(object):
     # get a DB connection
     def __init__(self):
         self.DBfd = connectDB()
         self.cursor = self.DBfd.cursor()
+        self.np = NamePicker()
         print "msg> initObj:consructor called."
     
     # commit changes and close connection    
@@ -40,17 +43,20 @@ class InsertTestData(object):
     def insertStudent(self, id_, name, gender, birth):
         sql = "insert into tbl_student(id, name, gender, birthday) values (%s,%s,%s,%s)"
         msg = self.cursor.execute(sql, (id_, name, gender, birth))
-        
-        
+
+
 # test process
 if __name__ == "__main__":
     obj = InsertTestData()
-    try:
-        for i in range(1,100):
-            obj.insertStudent(str(i),'Fuck', 'F', '19990909')
-    except Exception,e:
-        pass
-    data = obj.getAllData('tbl_student')
-    print data
+    def iStu(n):
+        try:
+            print "Insert students: "
+            for i in range(0,n):
+                p = obj.np.pickPerson()
+                obj.insertStudent(str(i+1),p[0], p[1], p[2])
+                print "#",i+1,": ",p[0]," ",p[1]," ",p[2]
+        except Exception,e:
+            print e
+    iStu(1000)
 
 ######
