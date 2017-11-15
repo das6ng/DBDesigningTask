@@ -1,17 +1,17 @@
-
+--+ All MySQL commands needed in StuMgr+--
 
 --+-------- table creations -------+--
 create table tbl_department(
     id char(2) not null primary key,
     name char(36) not null,
-    
+
     index ID(id)
 );
 
 create table tbl_course(
     id char(4) not null primary key,
     name char(36) not null,
-    
+
     index ID(id)
 );
 
@@ -23,10 +23,11 @@ create table tbl_class(
     index ID(id),
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
 );
 
 create table tbl_teacher(
-    id char(2) not null primary key,
+    id char(8) not null primary key,
     name char(36) not null,
     gender char(1) not null check (gender in ('F','M', 'X')),
     dept char(36) not null,
@@ -34,6 +35,7 @@ create table tbl_teacher(
     index ID(id),
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
 );
 
 create table tbl_student(
@@ -46,6 +48,8 @@ create table tbl_student(
     index ID(id),
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
+        on delete set null
 );
 
 create table tbl_teachingplan(
@@ -55,14 +59,17 @@ create table tbl_teachingplan(
     semester smallint check(semester > 0 and semester < 9),
     nature  char(10) check (nature in ('elective','compulsory')),
     weight smallint check (weight > 0),
-    
+
     primary key (class, course, dept),
     foreign key (class)
-        references tbl_class(id),
+        references tbl_class(id)
+        on update cascade,
     foreign key (course)
-        references tbl_course(id),
+        references tbl_course(id)
+        on update cascade,
     foreign key (dept)
         references tbl_department(id)
+        on update cascade
 );
 
 create table tbl_coursechoice(
@@ -73,8 +80,10 @@ create table tbl_coursechoice(
 
     primary key (id, course),
     foreign key (id)
-        references tbl_student(id),
+        references tbl_student(id)
+        on update cascade,
     foreign key (course)
         references tbl_course(id)
+        on update cascade
 );
 --+---------------+--
