@@ -51,10 +51,23 @@ class InsertTestData(object):
             print "ll[0], ll[1]"
             line = f.readline()
             count += 1
+        f.close()
         return count
 
     def insertCourses(self):
-        pass
+        f = open("../data/courses.txt")
+        sql = "insert into tbl_course(id, name) values (%s,%s)"
+        line = f.readline()
+        count = 0
+        print "Insert courses: "
+        while line:
+            ll = line.split()
+            msg = self.cursor.execute(sql, (ll[0],ll[1]))
+            print "ll[0], ll[1]"
+            line = f.readline()
+            count += 1
+        f.close()
+        return count
 
     def insertTeachers(self):
         sql = "insert into tbl_teacher(id, name, gender, dept) values (%s,%s,%s,%s)"
@@ -82,7 +95,7 @@ class InsertTestData(object):
             count = 0
             for dept in depts:
                 for clss in range(1,10):
-                    for num in range(10,51):
+                    for num in range(11,51):
                         id_ = '2020'+dept+str(clss)+str(num)
                         p = self.np.pickPerson()
                         self.insertStudent(id_,p[0], p[1], p[2],dept)
@@ -92,16 +105,53 @@ class InsertTestData(object):
             print e
         return count
 
+    def insertClasses(self):
+        sql = "insert into tbl_class(id,dept,size)"
+        depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16']
+        try:
+            print "Insert classes: "
+            count = 0
+            for dept in depts:
+                for clss in range(1,10):
+                    id_ = '2020'+dept+str(clss)
+                    self.cursor.excute(sql,(id_,dept,40))
+                    count += 1
+        except Exception,e:
+            print e
+        return count
+
+    def insertPlans(self):
+        f = open("../data/plans.txt")
+        sql = "insert into tbl_teachingplan(dept, course, semester, nature, weight) values (%s,%s,%s,%s,%s)"
+        print "Insert plans: "
+        count = 0
+        line = f.readline()
+        while line:
+            l.split()
+            self.cursor.execute(sql,(l[0],l[1],l[2],l[3],l[4]))
+            print " ",line
+            count += 1
+            line = f.readline()
+        f.close()
+        return count
+
 # test process
 if __name__ == "__main__":
     obj = InsertTestData()
+    
     cd = obj.insertDept()
     cs = obj.insertStudents()
     ct = obj.insertTeachers()
+    cC = obj.insertClasses()
+    cc = obj.insertCourses()
+    cp = obj.insertPlans()
 
     print "Total: "
     print " departments: ",cd
     print " teachers: ",ct
     print " students: ",cs
+    print " classes: ",cC
+    print " courses: ",cc
+    print " plans: ",cp
 
 ######

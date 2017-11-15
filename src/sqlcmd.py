@@ -32,7 +32,7 @@ create table tbl_course(
 # class table
 sql_class = """
 create table tbl_class(
-    id char(2) not null primary key,
+    id char(8) not null primary key,
     dept char(36) not null,
     size smallint check (size > -1 and size < 255),
 
@@ -75,17 +75,13 @@ create table tbl_student(
 # teaching plan table
 sql_plan = """
 create table tbl_teachingplan(
-    class char(2) not null,
     course char(4) not null,
     dept char(2) not null,
     semester smallint check(semester > 0 and semester < 9),
     nature  char(10) check (nature in ('elective','compulsory')),
     weight smallint check (weight > 0),
 
-    primary key (class, course, dept),
-    foreign key (class)
-        references tbl_class(id)
-        on update cascade,
+    primary key (course, dept),
     foreign key (course)
         references tbl_course(id)
         on update cascade,
