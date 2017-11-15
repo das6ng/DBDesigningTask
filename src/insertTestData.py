@@ -17,28 +17,28 @@ class InsertTestData(object):
         self.DBfd = connectDB()
         self.cursor = self.DBfd.cursor()
         self.np = NamePicker()
-    
-    # commit changes and close connection    
+
+    # commit changes and close connection
     def __del__(self):
         self.DBfd.commit()
         self.DBfd.close()
         print "--> DB connection close."
-    
+
     def insertTestData(self, id_, name_):
         sql = "insert into test(id, name) values (%s, %s);"
         msg = self.cursor.execute(sql, (id_, name_))
         print "msg> ",sql%(id_, name_)
         return msg
-    
+
     # get all data from a table
     def getAllData(self, table):
         sql = "select * from %s;"%table
         msg = self.cursor.execute(sql)
         print "msg> ",sql
-        
+
         data = self.cursor.fetchall()
         return data
-    
+
     def insertDept(self):
         f = open("../data/depts.txt")
         sql = "insert into tbl_department(id,name) values (%s,%s)"
@@ -52,10 +52,10 @@ class InsertTestData(object):
             line = f.readline()
             count += 1
         return count
-    
+
     def insertCourses(self):
         pass
-    
+
     def insertTeachers(self):
         sql = "insert into tbl_teacher(id, name, gender, dept) values (%s,%s,%s,%s)"
         depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16']
@@ -70,11 +70,11 @@ class InsertTestData(object):
                     print id_," ",p[0]," ",p[1]," ",dept
                     count += 1
         return count
-    
+
     def insertStudent(self, id_, name, gender, birth,dept):
         sql = "insert into tbl_student(id, name, gender, birthday,dept) values (%s,%s,%s,%s,%s)"
         msg = self.cursor.execute(sql, (id_, name, gender, birth,dept))
-    
+
     def insertStudents(self, n=0):
         depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16']
         try:
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     cd = obj.insertDept()
     cs = obj.insertStudents()
     ct = obj.insertTeachers()
-    
+
     print "Total: "
     print " departments: ",cd
     print " teachers: ",ct

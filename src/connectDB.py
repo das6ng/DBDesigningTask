@@ -20,7 +20,7 @@ def connectDB():
         print "->DB connect sucess!"
     except Exception,e:
         print "->DB connect Failed!"
-    
+
     return conn
 
 
