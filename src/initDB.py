@@ -26,7 +26,7 @@ class initObj(object):
     # ddrop a table
     def dropTable(self, table):
         msg = self.cursor.execute(sql_drop_table % table)
-        print "msg> ",sql
+        print "msg> ",sql_drop_table%table
         return msg
 
     # get all data from a table
@@ -159,17 +159,14 @@ if __name__ == "__main__":
             print "->ERROR on createTable. ",e
         try:
             c.createStudentTable()
-            print "msg> stu tbl created."
         except Exception,e:
             print "->ERROR on createStudentTable(). ",e
         try:
             c.createTeachingplanTable()
-            print "msg> plan tbl created."
         except Exception,e:
             print "->ERROR on createTeachingplanTable(). ",e
         try:
             c.createCoursechoiceTable()
-            print "msg> choice tbl created."
         except Exception,e:
             print "->ERROR on createCoursechoiceTable(). ",e
 

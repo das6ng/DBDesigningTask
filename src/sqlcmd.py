@@ -77,17 +77,21 @@ sql_plan = """
 create table tbl_teachingplan(
     course char(4) not null,
     dept char(2) not null,
-    semester smallint check(semester > 0 and semester < 9),
+    semester smallint not null check(semester > 0 and semester < 9),
     nature  char(10) check (nature in ('elective','compulsory')),
     weight smallint check (weight > 0),
+    teacher char(8),
 
-    primary key (course, dept),
     foreign key (course)
         references tbl_course(id)
         on update cascade,
     foreign key (dept)
         references tbl_department(id)
+        on update cascade,
+    foreign key (teacher)
+        references tbl_teacher(id)
         on update cascade
+        on delete set null
 );
 """
 # course choice table

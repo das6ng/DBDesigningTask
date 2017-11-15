@@ -63,7 +63,7 @@ class InsertTestData(object):
         while line:
             ll = line.split()
             msg = self.cursor.execute(sql, (ll[0],ll[1]))
-            print "ll[0], ll[1]"
+            print " ",ll[0]," ",ll[1]
             line = f.readline()
             count += 1
         f.close()
@@ -106,7 +106,7 @@ class InsertTestData(object):
         return count
 
     def insertClasses(self):
-        sql = "insert into tbl_class(id,dept,size)"
+        sql = "insert into tbl_class(id,dept,size) values (%s,%s,%s)"
         depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16']
         try:
             print "Insert classes: "
@@ -114,7 +114,8 @@ class InsertTestData(object):
             for dept in depts:
                 for clss in range(1,10):
                     id_ = '2020'+dept+str(clss)
-                    self.cursor.excute(sql,(id_,dept,40))
+                    self.cursor.execute(sql,(id_,dept,40))
+                    print " ",id_," ",dept," 40"
                     count += 1
         except Exception,e:
             print e
@@ -127,9 +128,9 @@ class InsertTestData(object):
         count = 0
         line = f.readline()
         while line:
-            l.split()
+            l = line.split()
             self.cursor.execute(sql,(l[0],l[1],l[2],l[3],l[4]))
-            print " ",line
+            print " ",line,
             count += 1
             line = f.readline()
         f.close()
@@ -140,17 +141,17 @@ if __name__ == "__main__":
     obj = InsertTestData()
     
     cd = obj.insertDept()
-    cs = obj.insertStudents()
     ct = obj.insertTeachers()
     cC = obj.insertClasses()
     cc = obj.insertCourses()
+    cs = obj.insertStudents()
     cp = obj.insertPlans()
 
     print "Total: "
     print " departments: ",cd
     print " teachers: ",ct
-    print " students: ",cs
     print " classes: ",cC
+    print " students: ",cs
     print " courses: ",cc
     print " plans: ",cp
 

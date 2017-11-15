@@ -61,3 +61,5 @@ if __name__ == "__main__":
     for i in range(0, 100):
         j = np.pickPerson()
         print "#",i," ",j[0]," ",j[1]," ",j[2]
+        
+
