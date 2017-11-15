@@ -2,7 +2,7 @@
 Database Designing Task. NO FURTHER UASGE!
 
 Architecture:
-Python+MySQL PyMySQL
+<a href="https://python.org">Python</a>+<a href="https://www.mysql.com">MySQL</a> <a href="https://github.com/PyMySQL/PyMySQL/">PyMySQL</a>
 
 Task Description:
 
