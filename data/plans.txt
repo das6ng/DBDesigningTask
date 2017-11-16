@@ -14,10 +14,6 @@
 03 0204 4 compulsory 3
 03 0208 4 elective 4
 03 0210 5 compulsory 3
-03 0201 1 compulsory 3
-03 0202 2 compulsory 4
-03 0203 3 elective 5
-03 0204 4 compulsory 3
 04 0103 2 compulsory 3
 04 0211 6 elective 2
 05 0101 1 compulsory 4

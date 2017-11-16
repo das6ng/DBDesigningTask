@@ -81,7 +81,13 @@ class initObj(object):
     def createTeachingplanTable(self):
         msg = self.cursor.execute(sql_plan)
         print "msg> plan table created."
+    
+    # "teaching" table
+    def createTeachingTable(self):
+        msg = self.cursor.execute(sql_teaching)
+        print "msg> teaching table created."
 
+    # "course choice" table
     def createCoursechoiceTable(self):
         msg = self.cursor.execute(sql_choice)
         print "msg> choice table created."
@@ -124,7 +130,17 @@ if __name__ == "__main__":
             print "except> ",e
             pass
         try:
+            c.dropTable('tbl_teaching')
+        except Exception,e:
+            print "except> ",e
+            pass
+        try:
             c.dropTable('tbl_student')
+        except Exception,e:
+            print "except> ",e
+            pass
+        try:
+            c.dropTable('tbl_teacher')
         except Exception,e:
             print "except> ",e
             pass
@@ -140,11 +156,6 @@ if __name__ == "__main__":
             pass
         try:
             c.dropTable('tbl_class')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_teacher')
         except Exception,e:
             print "except> ",e
             pass
@@ -165,6 +176,10 @@ if __name__ == "__main__":
             c.createTeachingplanTable()
         except Exception,e:
             print "->ERROR on createTeachingplanTable(). ",e
+        try:
+            c.createTeachingTable()
+        except Exception,e:
+            print "->ERROR on createTeachingTable(). ",e
         try:
             c.createCoursechoiceTable()
         except Exception,e:
