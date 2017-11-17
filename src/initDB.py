@@ -30,7 +30,6 @@ class initObj(object):
             print "msg> ",sql_drop_table%table
         except Exception,e:
             print "msg>Cannot drop table ",table,"  ",e
-        return msg
 
     # get all data from a table
     def getAllData(self, table):
@@ -123,20 +122,25 @@ class initObj(object):
     def createViews(self):
         try:
             self.cursor.execute(sql_view_stu)
+            print "msg> sql_view_stu"
             self.cursor.execute(sql_view_teach_stu)
+            print "msg> sql_view_teach_stu"
             self.cursor.execute(sql_view_choice_info)
+            print "msg> sql_view_choice_info"
             self.cursor.execute(sql_view_sum_compl)
+            print "msg> sql_view_sum_compl"
             self.cursor.execute(sql_view_sum_elec)
+            print "msg> sql_view_sum_elec"
         except Exception,e:
             print "[!]Error when create views. ",e
 
     def dropViews(self):
         try:
-            self.cursor.execute("stu_base_info")
-            self.cursor.execute("teach_stu_info")
-            self.cursor.execute("choice_info")
-            self.cursor.execute("sum_compl_fail")
-            self.cursor.execute("sum_elect_fail")
+            self.cursor.execute("drop view stu_base_info")
+            self.cursor.execute("drop view teach_stu_info")
+            self.cursor.execute("drop view choice_info")
+            self.cursor.execute("drop view sum_compl_fail")
+            self.cursor.execute("drop view sum_elect_fail")
         except Exception,e:
             print "except>Error when drop views.  ",e
 

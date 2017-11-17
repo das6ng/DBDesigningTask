@@ -122,10 +122,11 @@ sql_choice = """
 create table tbl_coursechoice(
     id char(11) not null,
     course char(4) not null,
+    semester smallint not null check(semester > 0 and semester < 9),
     grades smallint check(grades > -1 and grades < 101),
     regrades smallint check(grades > -1 and grades < 101),
 
-    primary key (id, course,semester),
+    primary key (id, course),
     foreign key (id)
         references tbl_student(id),
     foreign key (course)
@@ -157,7 +158,7 @@ CREATE VIEW teach_stu_info(Sid, Sname, Tid, Tname) AS
 
 # choice_info
 sql_view_choice_info = """
-CREATE VIEW choice_info(Sid,Sname,Cid,Cname,weight,semester,nature,grades,regrades)
+CREATE VIEW choice_info(Sid,Sname,Cid,Cname,weight,semester,nature,grades,regrades) AS
     SELECT S.id,S.name,C.id,C.name,P.weight,
            P.semester,P.nature,CH.grades,CH.regrades
     FROM tbl_student S, tbl_course C, tbl_teachingplan P, tbl_coursechoice CH
@@ -168,22 +169,20 @@ CREATE VIEW choice_info(Sid,Sname,Cid,Cname,weight,semester,nature,grades,regrad
 
 # sum_fail_compl
 sql_view_sum_compl = """
-CREATE VIEW sum_compl_fail(id, sum)
+CREATE VIEW sum_compl_fail(id, sum) AS
     SELECT S.id,SUM(P.weight)
     FROM tbl_student S, tbl_coursechoice CH, tbl_teachingplan P
     WHERE S.id=CH.id and CH.course=P.course and P.nature='compulsory'
           and not (CH.grades>=60 or CH.regrades>=60)
-
-    WITH CHECK OPTION;
+;
 """
 
 # sum_fail_elec
 sql_view_sum_elec = """
-CREATE VIEW sum_elect_fail(id, sum)
+CREATE VIEW sum_elect_fail(id, sum) AS
     SELECT S.id,SUM(P.weight)
     FROM tbl_student S, tbl_coursechoice CH, tbl_teachingplan P
     WHERE S.id=CH.id and CH.course=P.course and P.nature='elective'
           and not (CH.grades>=60 or CH.regrades>=60)
-
-    WITH CHECK OPTION;
+;
 """
