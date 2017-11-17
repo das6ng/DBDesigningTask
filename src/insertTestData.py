@@ -176,11 +176,35 @@ class InsertTestData(object):
                 self.cursor.execute(sql,(stu,each[0],each[2]))
                 count += 1
         return count
+        
+    def insertGrades(self):
+        sql = "update tbl_coursechoice set grades=%s, regrades=%s where id='%s' and course='%s'"
+        self.cursor.execute("select id,course from tbl_coursechoice")
+        choices = self.cursor.fetchall()
+        print "Insert Grades: "
+        count = 0
+        for choice in choices:
+            grade = random.sample(range(0,101), 1)[0]
+            regrade=-1
+            if grade>60:
+                try:
+                    self.cursor.execute(sql%(grade,'NULL',choice[0],choice[1]))
+                except Exception,e:
+                    print "[!]Error when insertGrades. ",e
+            else:
+                regrade = random.sample(range(0,101), 1)[0]
+                try:
+                    self.cursor.execute(sql%(grade,regrade,choice[0],choice[1]))
+                except Exception,e:
+                    print "[!]Error when insertGrades. ",e
+            print " ",choice, " ",grade," ",regrade
+            count += 1
+        return count
 
 # test process
 if __name__ == "__main__":
     obj = InsertTestData()
-
+    
     cd = obj.insertDept()
     ct = obj.insertTeachers()
     cC = obj.insertClasses()
@@ -189,6 +213,7 @@ if __name__ == "__main__":
     cp = obj.insertPlans()
     ctc = obj.insertTeaching()
     ccc = obj.insertChoices()
+    cg = obj.insertGrades()
 
     print "Total: "
     print " departments: ",cd
@@ -199,5 +224,5 @@ if __name__ == "__main__":
     print " plans: ",cp
     print " teachings: ",ctc
     print " choices: ",ccc
-
+    print " grades: ",cg
 ######
