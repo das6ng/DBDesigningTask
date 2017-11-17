@@ -101,6 +101,21 @@ create table tbl_teaching(
         references tbl_teacher(id)
 );
 """
+sql_teaching_check = """
+DROP TRIGGER IF EXISTS teaching_check;
+CREATE TRIGGER teaching_check BEFORE INSERT ON tbl_teaching
+FOR EACH ROW
+  BEGIN
+    IF NEW.teacher IN (
+         SELECT tbl_teaching.teacher
+             FROM tbl_teaching
+             WHERE tbl_teaching.class = NEW.class
+    ) THEN
+    SIGNAL SQLSTATE '55555' SET MESSAGE_TEXT =
+        'A teacher cannot be assigned to one specific class more than once.';
+    END IF;
+  END;
+"""
 
 # course choice table
 sql_choice = """

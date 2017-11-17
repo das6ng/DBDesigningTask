@@ -85,6 +85,7 @@ class initObj(object):
     # "teaching" table
     def createTeachingTable(self):
         msg = self.cursor.execute(sql_teaching)
+        self.cursor.execute(sql_teaching_check)
         print "msg> teaching table created."
 
     # "course choice" table

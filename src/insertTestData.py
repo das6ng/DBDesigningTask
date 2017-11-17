@@ -48,7 +48,7 @@ class InsertTestData(object):
         while line:
             ll = line.split()
             msg = self.cursor.execute(sql, (ll[0],ll[1]))
-            print "ll[0], ll[1]"
+            print " ",line
             line = f.readline()
             count += 1
         f.close()
@@ -138,22 +138,26 @@ class InsertTestData(object):
         sql = "insert into tbl_teaching(class,course,teacher) values (%s,%s,%s)"
         self.cursor.execute("select dept,course from tbl_teachingplan")
         plans = self.cursor.fetchall()
+        print "Inserting teaching: "
         count = 0
         for plan in plans:
             self.cursor.execute("select id from tbl_class where id like '____%s_'"%plan[0])
             clss = self.cursor.fetchall()
             for cls in clss:
                 cls = cls[0]
-                self.cursor.execute("select teacher from tbl_teaching where class=%s"%cls)
+                self.cursor.execute("select teacher from tbl_teaching where class='%s'"%cls)
                 tt = self.cursor.fetchall()
-                while True:
-                    self.cursor.execute("select id from tbl_teacher where id like '____%s__'"%plan[1][0:2])
-                    teachers = self.cursor.fetchall()
-                    teacher = random.sample(teachers,1)[0][0]
+                self.cursor.execute("select id from tbl_teacher where id like '____%s__'"%plan[1][0:2])
+                teachers = self.cursor.fetchall()
+                for teacher in teachers:
                     if teacher not in tt:
                         break
+                if teacher in tt:
+                    print " No enough teachers!"
+                    return count
+                teacher = teacher[0]
+                print " class:",cls," course:",plan[1]," teacher:",teacher
                 self.cursor.execute(sql,(cls,plan[1],teacher))
-                print " ",cls," ",plan[1]," ",teacher
                 count += 1
         return count
 
@@ -184,7 +188,7 @@ if __name__ == "__main__":
     cs = obj.insertStudents()
     cp = obj.insertPlans()
     ctc = obj.insertTeaching()
-    #ccc = obj.insertChoices()
+    ccc = obj.insertChoices()
 
     print "Total: "
     print " departments: ",cd
@@ -194,6 +198,6 @@ if __name__ == "__main__":
     print " courses: ",cc
     print " plans: ",cp
     print " teachings: ",ctc
-    #print " choices: ",ccc
+    print " choices: ",ccc
 
 ######

@@ -75,6 +75,11 @@ create table tbl_teaching(
     foreign key (teacher)
         references tbl_teacher(id)
 );
+CREATE TRIGGER teach_check BEFORE INSERT ON tbl_teaching
+    FOR EACH ROW check ((
+            select teacher from tbl_teaching a where a.class=class and a.teacher = teacher
+        ) is null
+);
 
 create table tbl_coursechoice(
     id char(11) not null,
