@@ -91,7 +91,7 @@ create table tbl_teaching(
     class char(8),
     course char(4),
     teacher char(8),
-    
+
     primary key (class,course,teacher),
     foreign key (class)
         references tbl_class(id),

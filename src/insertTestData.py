@@ -68,7 +68,7 @@ class InsertTestData(object):
             count += 1
         f.close()
         return count
-    
+
     def insertClasses(self):
         sql = "insert into tbl_class(id,dept,size) values (%s,%s,%s)"
         depts = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17']
@@ -118,7 +118,7 @@ class InsertTestData(object):
                 print id_," ",p[0]," ",p[1]," ",p[2]
                 count += 1
         return count
-    
+
     def insertPlans(self):
         f = open("../data/plans.txt")
         sql = "insert into tbl_teachingplan(dept, course, semester, nature, weight) values (%s,%s,%s,%s,%s)"
@@ -133,7 +133,7 @@ class InsertTestData(object):
             line = f.readline()
         f.close()
         return count
-        
+
     def insertTeaching(self):
         sql = "insert into tbl_teaching(class,course,teacher) values (%s,%s,%s)"
         self.cursor.execute("select dept,course from tbl_teachingplan")
@@ -156,7 +156,7 @@ class InsertTestData(object):
                 print " ",cls," ",plan[1]," ",teacher
                 count += 1
         return count
-        
+
     def insertChoices(self):
         sql = "insert into tbl_coursechoice(id,course,semester) values (%s,%s,%s)"
         self.cursor.execute("select course,dept,semester from tbl_teachingplan where  nature='compulsory';")
@@ -176,7 +176,7 @@ class InsertTestData(object):
 # test process
 if __name__ == "__main__":
     obj = InsertTestData()
-    
+
     cd = obj.insertDept()
     ct = obj.insertTeachers()
     cC = obj.insertClasses()
@@ -195,7 +195,5 @@ if __name__ == "__main__":
     print " plans: ",cp
     print " teachings: ",ctc
     #print " choices: ",ccc
-    
+
 ######
-
-

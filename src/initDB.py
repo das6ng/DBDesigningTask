@@ -81,7 +81,7 @@ class initObj(object):
     def createTeachingplanTable(self):
         msg = self.cursor.execute(sql_plan)
         print "msg> plan table created."
-    
+
     # "teaching" table
     def createTeachingTable(self):
         msg = self.cursor.execute(sql_teaching)
