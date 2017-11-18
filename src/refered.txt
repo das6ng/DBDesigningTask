@@ -8,3 +8,28 @@ http://www.cnblogs.com/zhangzhu/archive/2013/07/04/3172486.html
 
 Mysql命令大全：mysql常用命令手册、mysql命令行大全、查询工具
 http://c.biancheng.net/cpp/u/mysql_ml/
+
+
+毕廷竹:
+DROP TRIGGER IF EXISTS assignment_teacher_check;
+CREATE TRIGGER assignment_teacher_check BEFORE INSERT ON Assignment
+FOR EACH ROW
+  BEGIN
+    IF NEW.teacher IN (SELECT Assignment.teacher
+                       FROM Assignment
+                       WHERE Assignment.class = NEW.class) THEN
+      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT =
+        'A teacher cannot be assigned to one specific class more than once.';
+    END IF;
+  END;
+DROP TRIGGER IF EXISTS grade_exam_check;
+
+CREATE TABLE Assignment (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  class CHAR(11),
+  course CHAR(5),
+  teacher CHAR(6),
+  FOREIGN KEY (class) REFERENCES Class(id),
+  FOREIGN KEY (course) REFERENCES Course(id),
+  FOREIGN KEY (teacher) REFERENCES Teacher(id)
+);
