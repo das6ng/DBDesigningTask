@@ -25,8 +25,11 @@ class initObj(object):
 
     # ddrop a table
     def dropTable(self, table):
-        msg = self.cursor.execute(sql_drop_table % table)
-        print "msg> ",sql_drop_table%table
+        try:
+            msg = self.cursor.execute(sql_drop_table % table)
+            print "msg> ",sql_drop_table%table
+        except Exception,e:
+            print "msg>Cannot drop table ",table,"  ",e
         return msg
 
     # get all data from a table
@@ -54,55 +57,95 @@ class initObj(object):
 
     # "department" table
     def createDepartmentTable(self):
-        msg = self.cursor.execute(sql_dept)
-        print "msg> department table created."
+        try:
+            msg = self.cursor.execute(sql_dept)
+            print "msg> department table created."
+        except Exception,e:
+            print "[!]Error when createDepartmentTable.  ",e
 
     # "course" table
     def createCourseTable(self):
-        msg = self.cursor.execute(sql_course)
-        print "msg> course table created."
+        try:
+            msg = self.cursor.execute(sql_course)
+            print "msg> course table created."
+        except Exception,e:
+            print "[!]Error when createCourseTable. ",e
 
     # "class" table
     def createClassTable(self):
-        msg = self.cursor.execute(sql_class)
-        print "msg> class table created."
+        try:
+            msg = self.cursor.execute(sql_class)
+            print "msg> class table created."
+        except Exception,e:
+            print "[!]Error when createClassTable. ",e
 
     # "teacher" table
     def createTeacherTable(self):
-        msg = self.cursor.execute(sql_teacher)
-        print "msg> teacher table created."
+        try:
+            msg = self.cursor.execute(sql_teacher)
+            print "msg> teacher table created."
+        except Exception,e:
+            print "[!]Error when createTeacherTable. ",e
 
     # "students" table
     def createStudentTable(self):
-        msg = self.cursor.execute(sql_student)
-        print "msg> student table created."
+        try:
+            msg = self.cursor.execute(sql_student)
+            print "msg> student table created."
+        except Exception,e:
+            print "[!]Error when createStudentTable. ",e
 
     # "teachingplan" table
     def createTeachingplanTable(self):
-        msg = self.cursor.execute(sql_plan)
-        print "msg> plan table created."
+        try:
+            msg = self.cursor.execute(sql_plan)
+            print "msg> plan table created."
+        except Exception,e:
+            print "[!]Error when createTeachingplanTable. ",e
 
     # "teaching" table
     def createTeachingTable(self):
-        msg = self.cursor.execute(sql_teaching)
-        self.cursor.execute(sql_teaching_check)
-        print "msg> teaching table created."
+        try:
+            msg = self.cursor.execute(sql_teaching)
+            self.cursor.execute(sql_teaching_check)
+            print "msg> teaching table created."
+        except Exception,e:
+            print "[!]Error when createTeachingTable. ",e
 
     # "course choice" table
     def createCoursechoiceTable(self):
-        msg = self.cursor.execute(sql_choice)
-        print "msg> choice table created."
+        try:
+            msg = self.cursor.execute(sql_choice)
+            print "msg> choice table created."
+        except Exception,e:
+            print "[!]Error when createCoursechoiceTable. ",e
+
+    def createViews(self):
+        try:
+            self.cursor.execute(sql_view_stu)
+            self.cursor.execute(sql_view_teach_stu)
+            self.cursor.execute(sql_view_choice_info)
+            self.cursor.execute(sql_view_sum_compl)
+            self.cursor.execute(sql_view_sum_elec)
+        except Exception,e:
+            print "[!]Error when create views. ",e
+
+    def dropViews(self):
+        try:
+            self.cursor.execute("stu_base_info")
+            self.cursor.execute("teach_stu_info")
+            self.cursor.execute("choice_info")
+            self.cursor.execute("sum_compl_fail")
+            self.cursor.execute("sum_elect_fail")
+        except Exception,e:
+            print "except>Error when drop views.  ",e
 
 ### Test process ###
 if __name__ == "__main__":
     c = initObj()
 
     def testTable():
-        try:
-            c.dropTable('test')
-        except Exception,e:
-            print "->drop exception",e
-            pass
+        c.dropTable('test')
         try:
             c.createTestTable()
         except Exception,e:
@@ -120,77 +163,32 @@ if __name__ == "__main__":
             pass
 
     def dropAllTables():
-        try:
-            c.dropTable('tbl_coursechoice')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_teachingplan')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_teaching')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_student')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_teacher')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_course')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_department')
-        except Exception,e:
-            print "except> ",e
-            pass
-        try:
-            c.dropTable('tbl_class')
-        except Exception,e:
-            print "except> ",e
-            pass
+        c.dropTable('tbl_coursechoice')
+        c.dropTable('tbl_teachingplan')
+        c.dropTable('tbl_teaching')
+        c.dropTable('tbl_student')
+        c.dropTable('tbl_teacher')
+        c.dropTable('tbl_course')
+        c.dropTable('tbl_department')
+        c.dropTable('tbl_class')
 
     def createAllTables():
-        try:
-            c.createDepartmentTable()
-            c.createCourseTable()
-            c.createClassTable()
-            c.createTeacherTable()
-        except Exception,e:
-            print "->ERROR on createTable. ",e
-        try:
-            c.createStudentTable()
-        except Exception,e:
-            print "->ERROR on createStudentTable(). ",e
-        try:
-            c.createTeachingplanTable()
-        except Exception,e:
-            print "->ERROR on createTeachingplanTable(). ",e
-        try:
-            c.createTeachingTable()
-        except Exception,e:
-            print "->ERROR on createTeachingTable(). ",e
-        try:
-            c.createCoursechoiceTable()
-        except Exception,e:
-            print "->ERROR on createCoursechoiceTable(). ",e
+        c.createDepartmentTable()
+        c.createCourseTable()
+        c.createClassTable()
+        c.createTeacherTable()
+        c.createStudentTable()
+        c.createTeachingplanTable()
+        c.createTeachingTable()
+        c.createCoursechoiceTable()
 
+    c.dropViews()
     # drop tables
     for i in range(1,3):
         dropAllTables()
         print " #",i
     # create tables
     createAllTables()
+    c.createViews()
 
 ###################
