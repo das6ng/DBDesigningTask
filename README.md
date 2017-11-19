@@ -4,6 +4,8 @@ Database Designing Task. NO FURTHER UASGE!
 Architecture:
 <a href="https://python.org">Python</a>+<a href="https://www.mysql.com">MySQL</a> <a href="https://github.com/PyMySQL/PyMySQL/">PyMySQL</a>
 
+#Blog: http://dashyeah.life/2017/11/dbdesigningtask/
+
 Task Description:
 
 <p>
