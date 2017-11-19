@@ -148,7 +148,10 @@ def showDismiss(Fun):
 if __name__ == "__main__":
     Fun = Functions()
     while True:
-        sel = displayMenu()
+        try:
+            sel = displayMenu()
+        except Exception,e:
+            continue
         if sel==1:
             insertStu(Fun)
         elif sel==2:

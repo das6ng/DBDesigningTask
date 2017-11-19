@@ -111,7 +111,7 @@ class InsertTestData(object):
         count = 0
         for cls in clss:
             cls = cls[0]
-            for num in range(11,31):
+            for num in range(11,51):
                 id_ = cls+str(num)
                 p = self.np.pickPerson()
                 self.insertStudent(id_,p[0], p[1], p[2],cls)
@@ -163,7 +163,8 @@ class InsertTestData(object):
 
     def insertChoices(self):
         sql = "insert into tbl_coursechoice(id,course,semester) values (%s,%s,%s)"
-        self.cursor.execute("select course,dept,semester from tbl_teachingplan where  nature='compulsory';")
+        #self.cursor.execute("select course,dept,semester from tbl_teachingplan where nature='compulsory';")
+        self.cursor.execute("select course,dept,semester,nature from tbl_teachingplan;")
         compls = self.cursor.fetchall()
         count = 0
         print "Insert choices:"
@@ -172,9 +173,13 @@ class InsertTestData(object):
             stus = self.cursor.fetchall()
             for stu in stus:
                 stu = stu[0]
-                print " ",stu," ",each[0]," ",each[2]
-                self.cursor.execute(sql,(stu,each[0],each[2]))
-                count += 1
+                sel = True
+                if each[3] == "elective":
+                    sel = random.sample([True,False],1)[0]
+                if sel:
+                    print " ",stu," ",each[0]," ",each[2]
+                    self.cursor.execute(sql,(stu,each[0],each[2]))
+                    count += 1
         return count
         
     def insertGrades(self):

@@ -12,7 +12,7 @@ host = "127.0.0.1"
 port = 3306
 user = "stumgr"
 passwd = "1234"
-db = "StuMgr_test"
+db = "StuMgr"
 
 def connectDB():
     try:

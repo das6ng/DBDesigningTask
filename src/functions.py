@@ -1,17 +1,17 @@
 #!/bin/baaash/env python
 # -*- coding:utf-8 -*-
 
+# Student Menager APIs
+
 import pymysql
 
 from connectDB import connectDB
-from NamePicker import NamePicker
 
 class Functions(object):
     # get a DB connection
     def __init__(self):
         self.DBfd = connectDB()
         self.cursor = self.DBfd.cursor()
-        self.np = NamePicker()
 
     # commit changes and close connection
     def __del__(self):
