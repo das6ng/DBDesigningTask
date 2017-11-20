@@ -167,21 +167,21 @@ CREATE VIEW choice_info(Sid,Sname,Cid,Cname,weight,semester,nature,grades,regrad
 # sum_fail_compl
 sql_view_sum_compl = """
 CREATE VIEW sum_compl_fail(id, name, sum) AS
-    SELECT DISTINCT S.id,S.name,SUM(P.weight)
-    FROM tbl_student S, tbl_coursechoice CH, tbl_teachingplan P
-    WHERE S.id=CH.id and CH.course=P.course and P.nature='compulsory'
+    SELECT DISTINCT Sid,Sname,SUM(weight)
+    FROM choice_info CH
+    WHERE CH.nature='compulsory'
           and not (CH.grades>=60 or CH.regrades>=60)
-    group by (S.id)
+    group by (Sid)
 ;
 """
 
 # sum_fail_elec
 sql_view_sum_elec = """
 CREATE VIEW sum_elect_fail(id, name, sum) AS
-    SELECT DISTINCT S.id,S.name,SUM(P.weight)
-    FROM tbl_student S, tbl_coursechoice CH, tbl_teachingplan P
-    WHERE S.id=CH.id and CH.course=P.course and P.nature='elective'
+    SELECT DISTINCT Sid,Sname,SUM(weight)
+    FROM choice_info CH
+    WHERE CH.nature='elective'
           and not (CH.grades>=60 or CH.regrades>=60)
-    group by (S.id)
+    group by (Sid)
 ;
 """
