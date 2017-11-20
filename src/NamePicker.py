@@ -58,8 +58,10 @@ class NamePicker(object):
 if __name__ == "__main__":
     np = NamePicker()
     #np.showData()
-    for i in range(0, 100):
+    #fd = open("names.txt","w")
+    for i in range(0, 1000):
         j = np.pickPerson()
+        fd.write(" ".join(j)+"\n")
         print "#",i," ",j[0]," ",j[1]," ",j[2]
         
 

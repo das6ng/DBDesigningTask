@@ -178,8 +178,32 @@ class MainWin(object):
         btn_no.pack()
         btn_ok.place(height=30,width=100, x=12, y=6)
         btn_no.place(height=30,width=100, x=132, y=6)
-        
+    
     def getChoice(self):
+        fieldNames = ["Student ID:"]
+        values = []
+        values = easygui.multenterbox("Enter Student ID:", "get Average Score",fieldNames)
+        try:
+            data = self.Fun.getCourseChoice(values[0])
+            result = 'Sid Sname Cid Cname weight semester nature grades regrades'
+            if data:
+                for each in data:
+                    result += "\n"+each[0]
+                    result += "  "+each[1]
+                    result += "  "+each[2]
+                    result += "  "+each[3]
+                    result += "  "+str(each[4])
+                    result += "  "+str(each[5])
+                    result += "  "+each[6]
+                    result += "  "+str(each[7])
+                    result += "  "+str(each[8])
+            else:
+                result = "None"
+            easygui.codebox(msg="Results:",title="Result",text=result)
+        except:
+            easygui.exceptionbox()
+    
+    def getChoice_(self):
         win = Toplevel()
         win.title("Search Choice")
         win.geometry("300x100")
