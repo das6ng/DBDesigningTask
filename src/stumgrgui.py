@@ -8,6 +8,9 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 
+import easygui
+from prettytable import PrettyTable
+
 class MainWin(object):
     def __init__(self):
         self.root = Tk()
@@ -114,44 +117,114 @@ class MainWin(object):
     def getStu(self):
         win = Toplevel()
         win.title("Search Student")
-        win.geometry("300x220")
+        win.geometry("300x100")
         win.resizable(FALSE,FALSE)
         sel = StringVar()
         id_rb = ttk.Radiobutton(win, text='by ID', variable=sel, value='id')
-        name_rb = ttk.Radiobutton(parent, text='by name', variable=sel, value='name')
-        dept_rb = ttk.Radiobutton(parent, text='by department', variable=sel, value='dept')
+        name_rb = ttk.Radiobutton(win, text='by name', variable=sel, value='name')
+        dept_rb = ttk.Radiobutton(win, text='by department', variable=sel, value='dept')
         key = StringVar()
         key_entry = Entry(win, textvariable=key)
         def getstu():
-            pass
-        btn_ok = Button(win,commond=getstu,text="Search")
+            mode = sel.get()
+            value = key.get()
+            try:
+                data = self.Fun.getStuInfo(value,mode)
+                if data:
+                    result = '   id     name   dept   gender birthday'
+                    for each in data:
+                        result += "\n"+"  ".join(each)
+                else:
+                    result = "None"
+                easygui.codebox(msg="Results:",title="Result",text=result)
+            except:
+                easygui.exceptionbox()
+        btn_ok = Button(win,command=getstu,text="Search")
         id_rb.pack()
         name_rb.pack()
         dept_rb.pack()
         key_entry.pack()
         btn_ok.pack()
-        id_rb.place(height=30,width=80, x=150, y=175)
-        name_rb.place(height=30,width=80, x=150, y=175)
-        dept_rb.place(height=30,width=80, x=150, y=175)
-        key_entry.place(height=30,width=80, x=150, y=175)
-        btn_ok.place(height=30,width=80, x=150, y=175)
-        pass
+        id_rb.place(height=20,width=80, x=5, y=5)
+        name_rb.place(height=20,width=80, x=5, y=25)
+        dept_rb.place(height=20,width=80, x=5, y=45)
+        key_entry.place(height=30,width=180, x=95, y=6)
+        btn_ok.place(height=25,width=80, x=140, y=40)
     
     def insertGrade(self):
         win = Toplevel()
-        win.title("Search Grades")
-        
-        pass
+        win.title("Modifiy Scores")
+        win.geometry("260x45")
+        win.resizable(FALSE,FALSE)
+        sel = True
+        def insertScore():
+            try:
+                fieldNames = ["Student ID:", "Course ID:","Score:"]
+                values = []
+                values = easygui.multenterbox("Enter Info:", "Update Score",fieldNames)
+                data = self.Fun.insertGrade(values[0],values[1],int(values[2]),sel)
+                messagebox.showinfo(message="Successful!", title='Success')
+            except:
+                easygui.exceptionbox()
+        def insertN():
+            sel = False
+            insertScore()
+        def insertS():
+            sel = True
+            insertScore()
+        btn_ok = Button(win,command=insertN,text="Normal Exam")
+        btn_no = Button(win,command=insertS,text="Second Exam")
+        btn_ok.pack()
+        btn_no.pack()
+        btn_ok.place(height=30,width=100, x=12, y=6)
+        btn_no.place(height=30,width=100, x=132, y=6)
         
     def getChoice(self):
         win = Toplevel()
         win.title("Search Choice")
+        win.geometry("300x100")
+        win.resizable(FALSE,FALSE)
+        lbl = Label(win,text="Student ID:")
+        id_ = StringVar()
+        entry = Entry(win, textvariable=id_)
+        def getCh():
+            try:
+                data = self.Fun.getCourseChoice(id_.get())
+                result = '  Sid    Sname  Cid   Cname   weight semester nature score re-score'
+                if data:
+                    pt = PrettyTable()
+                    pt._set_field_names('Sid Sname Cid Cname weight semester nature grades regrades'.split())
+                    for each in data:
+                        pt.add_row(each)
+                    print pt
+                    for each in data:
+                        s = "  "
+                        result += "\n"+s.join(each)
+                else:
+                    result = "None"
+                easygui.codebox(msg="Results:",title="Result",text=result)
+            except:
+                easygui.exceptionbox()
+        btn = Button(win,command=getCh,text="Search")
+        lbl.pack()
+        entry.pack()
+        btn.pack()
+        lbl.place(height=30,width=80, x=10, y=6)
+        entry.place(height=30,width=180, x=90, y=6)
+        btn.place(height=30,width=60, x=105, y=50)
         pass
         
     def getAve(self):
-        win = Toplevel()
-        win.title("Get Average Grade")
-        pass
+        fieldNames = ["Student ID:"]
+        values = []
+        values = easygui.multenterbox("Enter Student ID:", "get Average Score",fieldNames)
+        value = values[0]
+        full = messagebox.askyesno(message="Including elective courses?", icon='question', title='Check')
+        try:
+            ave = self.Fun.getAverage(value,full)
+            messagebox.showinfo(message="Result:\nID: %s\nAverage Score: %s"%(value,ave), title='Result')
+        except:
+            easygui.exceptionbox()
         
     def getTeached(self):
         win = Toplevel()
