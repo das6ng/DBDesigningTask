@@ -89,8 +89,7 @@ class MainWin(object):
             data = []
             for each in info:
                 data.append(each.get())
-            sel = messagebox.askokcancel(message="Check the information:\n ID: %s\nName: %s\n"+
-                            "Gender: %s\nBirthday: %s\nClass: %s"%
+            sel = messagebox.askokcancel(message="Check the information:\n ID: %s\nName: %s\nGender: %s\nBirthday: %s\nClass: %s"%
                             (data[0], data[1], data[2], data[3], data[4]), icon='question', title='Check Info')
             if sel:
                 if data[2] == 'Female':
