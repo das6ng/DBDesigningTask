@@ -202,41 +202,7 @@ class MainWin(object):
             easygui.codebox(msg="Results:",title="Result",text=result)
         except:
             easygui.exceptionbox()
-    
-    def getChoice_(self):
-        win = Toplevel()
-        win.title("Search Choice")
-        win.geometry("300x100")
-        win.resizable(FALSE,FALSE)
-        lbl = Label(win,text="Student ID:")
-        id_ = StringVar()
-        entry = Entry(win, textvariable=id_)
-        def getCh():
-            try:
-                data = self.Fun.getCourseChoice(id_.get())
-                result = '  Sid    Sname  Cid   Cname   weight semester nature score re-score'
-                if data:
-                    pt = PrettyTable()
-                    pt._set_field_names('Sid Sname Cid Cname weight semester nature grades regrades'.split())
-                    for each in data:
-                        pt.add_row(each)
-                    print pt
-                    for each in data:
-                        s = "  "
-                        result += "\n"+s.join(each)
-                else:
-                    result = "None"
-                easygui.codebox(msg="Results:",title="Result",text=result)
-            except:
-                easygui.exceptionbox()
-        btn = Button(win,command=getCh,text="Search")
-        lbl.pack()
-        entry.pack()
-        btn.pack()
-        lbl.place(height=30,width=80, x=10, y=6)
-        entry.place(height=30,width=180, x=90, y=6)
-        btn.place(height=30,width=60, x=105, y=50)
-        
+
     def getAve(self):
         fieldNames = ["Student ID:"]
         values = []
