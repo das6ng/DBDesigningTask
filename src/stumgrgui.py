@@ -212,7 +212,6 @@ class MainWin(object):
         lbl.place(height=30,width=80, x=10, y=6)
         entry.place(height=30,width=180, x=90, y=6)
         btn.place(height=30,width=60, x=105, y=50)
-        pass
         
     def getAve(self):
         fieldNames = ["Student ID:"]
@@ -227,14 +226,33 @@ class MainWin(object):
             easygui.exceptionbox()
         
     def getTeached(self):
-        win = Toplevel()
-        win.title("Search Teached")
-        pass
+        fieldNames = ["Student ID:"]
+        values = []
+        values = easygui.multenterbox("Enter Student ID:", "get Average Score",fieldNames)
+        try:
+            data = self.Fun.getTeached(values[0])
+            result = "  Tid   Tname"
+            if data:
+                for each in data:
+                    result += "\n"+"  ".join(each)
+            else:
+                result = "None"
+            easygui.codebox(msg="Results:",title="Result",text=result)
+        except:
+            easygui.exceptionbox()
     
     def getDismiss(self):
-        win = Toplevel()
-        win.title("Search Dismissed")
-        pass
+        try:
+            data = self.Fun.getTobeDismissed()
+            result = "  id   name"
+            if data:
+                for each in data:
+                    result += "\n"+"  ".join(each)
+            else:
+                result = "None"
+            easygui.codebox(msg="Results:",title="Result",text=result)
+        except:
+            easygui.exceptionbox()
 
 if __name__ == "__main__":
     mw = MainWin()
