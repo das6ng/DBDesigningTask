@@ -22,6 +22,12 @@ class Functions(object):
     def insertStudent(self, id_, name, gender, birthday, class_):
         sql = "insert into tbl_student(id,name,gender,birthday,class) values('%s','%s','%s','%s','%s');"%(id_, name, gender, birthday, class_)
         self.cursor.execute(sql)
+        dept = class_[4:6]
+        sql_ch = "insert into tbl_coursechoice(id,course,semester) values ('%s','%s',%s)"
+        self.cursor.execute("select course,semester from tbl_teachingplan where dept='%s' and nature='compulsory'"%dept)
+        cs = self.cursor.fetchall()
+        for c in cs:
+            self.cursor.execute(sql_ch%(id_,c[0],c[1]))
 
     def insertGrade(self, id_, course, grade, redo=False):
         if not redo:
