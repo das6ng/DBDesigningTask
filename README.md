@@ -1,5 +1,5 @@
 # DBDesigingTask
-Database Designing Task. NO FURTHER UASGE!
+Database Designing Homework. NO FURTHER UASGE!
 
 Architecture:
 <a href="https://python.org">Python</a>+<a href="https://www.mysql.com">MySQL</a> <a href="https://github.com/PyMySQL/PyMySQL/">PyMySQL</a>
